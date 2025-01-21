@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "sfinder-strict-minimal": "^0.2.0",
+    "tetris-fumen": "^1.1.3",
+    "yargs": "^17.7.2"
+  }
+}
