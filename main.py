@@ -4030,8 +4030,16 @@ async def path_all_solutions(ctx, fumen=None, queue=None, clear=4):
     soup = BeautifulSoup(file_contents, 'html.parser')
     link = soup.find('a')
     href = link.get('href')
-    href = make_tiny(href)
-    await ctx.reply(f"All Solutions: {href}")
+    try:
+      href = make_tiny(href)
+      await ctx.reply(f"All Solutions: {href}")
+    except:
+      with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "w") as file:
+        file.write(href)
+
+      with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "rb") as file:
+        await ctx.send("All solutions (tinyurl failed):",
+                     file=discord.File(file, "result.txt"))
 
   remove(output_file)
 
