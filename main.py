@@ -61,7 +61,7 @@ newslettergroup = [
 def bot_admin(ctx):  # i cba to keep copy pasting this
 
   key = f"bot_admin{ctx.author.id}"
-  main_devs = [717451031897833512, 696811705619054633] # epic, cringe
+  main_devs = [717451031897833512, 696811705619054633, 186274635220779009, 1187516479051157524] # epic, cringe, swng, kzl
   return key in db.keys() or ctx.author.id in main_devs
 
 # Also works for message objects
@@ -1182,6 +1182,53 @@ async def cat_finder(ctx, fumen=None, allpieces=None, highestvalue=4, fedb2b="fa
     await ctx.send(file=toimage(solutionfumen))
     await ctx.send(solutionfumen)
 
+@bot.command()
+async def find_100ps(ctx, fumen=None, setup_pieces="OISZLJ", hold_piece="T", mode="tspin", min_lines_cleared=2, minis_allowed="no", skims_allowed="no", holes_allowed="no", do_sfinder_check="no"):
+  # default is to look for TSD+ with all the filters but sfinder filter.
+  # --> give all pieces but T to look for 100% as you keep T in hold
+  # for reasons, it's better for performance to start with O
+  # if you already have placements in mind for some pieces, e.g. by using a congruent, put them on the fumen field and omit them from the pieces
+  # for my coding sake, im just assuming pieces is a basic string like that (order doesn't matter). Not supporting sfinder piece notation atm.
+  # mode: "tspin" will generate 100ps and then check for tspin slots with a final T.
+  # mode: "immobile" will look for an immobile placement for the final piece.
+  # mode: "none" will not care
+  # min lines cleared refers to the lines cleared by the special final piece. 2 for TSD/TST
+  # skims allowed no will filter out setups that have line clears before the final piece.
+  # holes_allowed no will filter out setups with holes
+
+  if (fumen == None): # was tempted to make fumen default v115@vhAAgH idk
+    await ctx.reply("Please provide fumen")
+    return
+  
+  if (mode == "tspin"):
+    if (hold_piece != "T"):
+      await ctx.reply("You are looking for a tspin but didn't set T as your hold piece.")
+      return
+    if ("T" in setup_pieces):
+      await ctx.reply("Warning: You included T in `setup_pieces` but are looking for a tspin. You probably mean a setup without using T.") # warn but don't exit just in case they somehow actually intentionally meant it
+
+
+  kicks = get_kicks(ctx) # jstris180 or tetrio180 or srs or nullpomino180 or nokicks
+  # ok tbh most of this is going to use tetrio and then the final sfinder check will use these kicks
+  
+  errorfile = f"__userdata/{ctx.author.id}/error.txt"
+  outputfile = f"__userdata/{ctx.author.id}/100ps.txt"
+
+  # now call the js function for 100ps
+
+  scoretest = await system(ctx, f"node find_100ps.js fumen={fumen} setup_pieces={setup_pieces} hold_piece={hold_piece} mode={mode} min_lines_cleared={min_lines_cleared} minis_allowed={minis_allowed} skims_allowed={skims_allowed} holes_allowed={holes_allowed} kicks={kicks} outputfile={outputfile} do_sfinder_check={do_sfinder_check} > ezsfinder.txt")
+
+  if (scoretest != 0):
+    await ctx.reply(
+      f"Something went wrong with the score command. Please check for any typos you might have had.\nThe error code is {scoretest}. 137 is out of memory and tends to be the most common.",
+      file=discord.File(errorfile))
+    return
+  
+  link = open(outputfile).read()
+  
+  await ctx.reply(f"Your 100p setups are {link}", file=discord.File("ezsfinder.txt"))
+
+
 
 @bot.command(aliases=["percent"])
 async def chance(ctx, fumen=None, queue=None, clear=4):
@@ -1393,8 +1440,6 @@ def create_mode_image(original_image, new_width, new_height):
 
 
 bot.command()
-
-
 async def textfumen(ctx, *, textfumen=None):
   if textFumen == None:
     ctx.reply("Attach a text fumen")
