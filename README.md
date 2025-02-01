@@ -19,6 +19,10 @@ sfinder discord bot that computes various commands relevant to modern tetris res
    pip install discord bs4 Pillow py-fumen-py py-fumen-util requests matplotlib python-dotenv
    ```
 
+3. Install the required node.js dependencies:
+   ```bash
+   npm install child_process fs hashmap tetris-fumen yargs
+   ```
 ---
 
 ## **How to Run**
