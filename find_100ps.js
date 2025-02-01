@@ -13,7 +13,7 @@ function combine(set_a, set_b) {
             let field_b = decoder.decode(b)[0].field;
             let pieces_b = field_b.field.field.pieces;
             let no_intersection = true;
-            for (let i = 0; i < 130; i++) {
+            for (let i = 0; i < 230; i++) {
                 if (pieces_a[i] != 0 && pieces_a[i] != 8) {
                     if (pieces_b[i] != 0 && pieces_a[i] != 8) {
                         no_intersection = false;
@@ -89,7 +89,7 @@ function is_placeable_last(piece, candidate) {
     let pieces = field.field.field.pieces;
 
     let piece_index = ".ILOZTJS".indexOf(piece);
-    for (let i = 0; i < 130; i++) {
+    for (let i = 0; i < 230; i++) {
         if (pieces[i] != 0 && pieces[i] != piece_index) pieces[i] = 8; // grey out all but the piece of interest
     }
     let temp = glue([encoder.encode([{ field: field }])])[0]; // inefficient redundant encodes and decodes but whatever
