@@ -1213,10 +1213,11 @@ async def find_100ps(ctx, fumen=None, setup_pieces="OISZLJ", hold_piece="T", mod
   
   errorfile = f"__userdata/{ctx.author.id}/error.txt"
   outputfile = f"__userdata/{ctx.author.id}/100ps.txt"
+  ezsfinder = f"__userdata/{ctx.author.id}/ezsfinder.txt"
 
   # now call the js function for 100ps
 
-  scoretest = await system(ctx, f"node find_100ps.js fumen={fumen} setup_pieces={setup_pieces} hold_piece={hold_piece} mode={mode} min_lines_cleared={min_lines_cleared} minis_allowed={minis_allowed} skims_allowed={skims_allowed} holes_allowed={holes_allowed} kicks={kicks} outputfile={outputfile} do_sfinder_check={do_sfinder_check} > ezsfinder.txt")
+  scoretest = await system(ctx, f"node find_100ps.js fumen={fumen} setup_pieces={setup_pieces} hold_piece={hold_piece} mode={mode} min_lines_cleared={min_lines_cleared} minis_allowed={minis_allowed} skims_allowed={skims_allowed} holes_allowed={holes_allowed} kicks={kicks} outputfile={outputfile} do_sfinder_check={do_sfinder_check} > {ezsfinder}")
 
   if (scoretest != 0):
     await ctx.reply(
@@ -1225,8 +1226,19 @@ async def find_100ps(ctx, fumen=None, setup_pieces="OISZLJ", hold_piece="T", mod
     return
   
   link = open(outputfile).read()
+
+  try:
+    await ctx.reply(f"Your 100p setups are {make_tiny('https://fumen.zui.jp/?' + link)}", file=discord.File(ezsfinder, "logs.txt"))
+
+  except:
+    with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "w") as file:
+      file.write("https://fumen.zui.jp/?" + link)
+
+    with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "rb") as file:
+      await ctx.send("Your 100p setups (tinyurl failed):",
+                     file=discord.File(file, "result.txt"))
   
-  await ctx.reply(f"Your 100p setups are {link}", file=discord.File("ezsfinder.txt"))
+  
 
 
 

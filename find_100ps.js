@@ -274,13 +274,13 @@ args.forEach((arg) => {
     } else if (arg.startsWith('min_lines_cleared=')) {
         min_lines_cleared = parseInt(arg.slice(18));
     } else if (arg.startsWith('minis_allowed=')) { 
-        const value = arg.slice(13).toLowerCase();
+        const value = arg.slice(14).toLowerCase();
         minis_allowed = (value === 'true' || value === 'yes');
     } else if (arg.startsWith('skims_allowed=')) {
-        const value = arg.slice(13).toLowerCase();
+        const value = arg.slice(14).toLowerCase();
         skims_allowed = (value === 'true' || value === 'yes');
     } else if (arg.startsWith('holes_allowed=')) {
-        const value = arg.slice(13).toLowerCase();
+        const value = arg.slice(14).toLowerCase();
         holes_allowed = (value === 'true' || value === 'yes');
     } else if (arg.startsWith('kicks=')) {
         kicks = arg.slice(6).toLowerCase();
