@@ -1240,7 +1240,7 @@ async def find_100ps(ctx, fumen=None, setup_pieces="OISZLJ", hold_piece="T", mod
 
     with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "rb") as file:
       await ctx.send("Your 100p setups (tinyurl failed):",
-                     file=discord.File(file, "result.txt"))
+                     files=[discord.File(file, "result.txt"), discord.File(ezsfinder, "logs.txt")])
   
   
 

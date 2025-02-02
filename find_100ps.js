@@ -4,6 +4,7 @@ const {glue} = require('./gluer.js');
 const {unglue} = require('./unglueFumens.js');
 const { make_sys_call } = require("./make_sys_call");
 const fs = require('fs');
+const path = require('path');
 
 function combine(set_a, set_b) {
     let results = new Set();
@@ -166,10 +167,22 @@ async function main() {
     let initialField = decoder.decode(fumen)[0].field;
     let results = new Set([fumen]);
 
-    for (const piece of setup_pieces) {
-        const pieceResults = generate(initialField, piece);
-        results = combine(pieceResults, results);
-    }
+    // for (const piece of setup_pieces) {
+    //     const pieceResults = generate(initialField, piece);
+    //     results = combine(pieceResults, results);
+    // }
+
+    // let's parallelize this...
+
+    let pieceResults = await Promise.all(setup_pieces.split('').map(async (piece) => {
+        const pieceResult = await generate(initialField, piece);
+        return pieceResult;
+    }));
+    
+    // Combine all the results from each piece
+    results = pieceResults.reduce((acc, result) => combine(acc, result), results);
+
+    
 
     console.log(results.size + ` no ${hold_piece} 100% deepdrop nohold setups`);
     let temp = performance.now();
@@ -199,12 +212,27 @@ async function main() {
         // Probably100 is much faster and is pretty accurate.
         let glued_candidates = glue(results);
         let true100p_results = [];
-        for (candidate of glued_candidates) {
-            let is_actually_100 = await is_100(candidate, hold_piece);
-            if (is_actually_100) {
-                true100p_results.push(unglue([candidate])[0]);
+        let fp_in = path.join(path.dirname(outputfile), 'fp_in.txt');
+        fs.writeFileSync(fp_in, glued_candidates.join('\n'), 'utf8');
+
+        let command = `java -jar sfinder.jar cover -K kicks/${kicks}.properties -d 180 -p '[${setup_pieces}]!' -fp ${fp_in} --hold avoid`;
+        let results_string = await make_sys_call(command);
+        for (let line of results_string.split("\n")) {
+            if (line.includes("http://fumen.zui.jp")) {
+                if (line.substring(0, 3) == '100') {
+                    let index = line.indexOf("fumen");
+                    let temp = line.substring(index + 14);
+                    true100p_results.push(unglue([temp])[0]);
+                }
             }
         }
+
+        // for (candidate of glued_candidates) {
+        //     let is_actually_100 = await is_100(candidate, hold_piece);
+        //     if (is_actually_100) {
+        //         true100p_results.push(unglue([candidate])[0]);
+        //     }
+        // }
         console.log(true100p_results.length + ` setups after true100% filter`);
         temp = performance.now();
         console.log(`Execution Time: ${temp - start}ms`);

@@ -2,7 +2,7 @@ const { exec } = require("child_process");
 
 async function make_sys_call(command) {
     return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
+        exec(command, { maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
             if (error) {
                 reject(new Error(`Error: ${error.message}`));
                 return;
