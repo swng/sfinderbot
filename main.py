@@ -2654,17 +2654,17 @@ async def score_minimals(ctx,
   if (weights == None):
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
     )
   elif (weights.upper() == "DPC"):
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
     )
   else:
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
     )
 
   if (scoretest != 0):
@@ -2734,17 +2734,17 @@ async def extra_minimals(ctx,
   if (weights == None):
     scoretest = await system(
       ctx,
-      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
+      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
     )
   elif (weights.upper() == "DPC"):
     scoretest = await system(
       ctx,
-      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
+      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
     )
   else:
     scoretest = await system(
       ctx,
-      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
+      f"node extramins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
     )
 
   if (scoretest != 0):
@@ -2820,12 +2820,12 @@ async def score_allspin_minimals(ctx,
   elif (weights.upper() == "DPC"):
     scoretest = await system(
       ctx,
-      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
+      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
     )
   else:
     scoretest = await system(
       ctx,
-      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
+      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} save_weights={weights}"
     )
 
   if (scoretest != 0):
@@ -4851,17 +4851,17 @@ async def special_score_minimals(ctx,
   if (weights == None):
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} catOnly=True output={outputfile}"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} catOnly=True output={outputfile}"
     )
   elif (weights.upper() == "DPC"):
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} catOnly=True save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} catOnly=True save_weights=4726.378,4495.700,4454.710,4454.710,4255.940,4255.940,4135.546"
     )
   else:
     scoretest = await system(
       ctx,
-      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} catOnly=True save_weights={weights}"
+      f"node scoremins.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile} catOnly=True save_weights={weights}"
     )
 
   if (scoretest != 0):
