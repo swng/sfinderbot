@@ -2815,7 +2815,7 @@ async def score_allspin_minimals(ctx,
   if (weights == None):
     scoretest = await system(
       ctx,
-      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2b={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
+      f"node scoremins_allspin.js doholdcover={holdoutputfile} noholdcover={noholdoutputfile} initialCombo={initial_combo} initialB2B={initial_b2b} b2bEndBonus={b2bendbonus} queue={testqueue} fuzzy={fuzzymargin} output={outputfile}"
     )
   elif (weights.upper() == "DPC"):
     scoretest = await system(
