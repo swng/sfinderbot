@@ -56,6 +56,10 @@ newslettergroup = [
   461298560416219148, 803050948695556117
 ]
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+  }
+
 
 # Also works for message objects
 def bot_admin(ctx):  # i cba to keep copy pasting this
@@ -3399,7 +3403,7 @@ async def weightedfails(ctx, uname=None):
     return
 
   pc_leaderboard_url = "https://jstris.jezevec10.com/PC-mode?display=5&user=" + uname
-  res = requests.get(pc_leaderboard_url)
+  res = requests.get(pc_leaderboard_url, headers=headers)
 
   if res.status_code != 200:
     await ctx.reply("Failed to fetch data.")

@@ -667,15 +667,16 @@ function t_spin_checker(op, field) { // returns -1 if not t spin; otherwise, ret
 		if (field.canFill(kick)) { // try and reverse it
 			let temp = vanilla_spin_cw(kick.copy());
 			let temp_kicks = get_cw_kicks(temp, kick.rotation);
+			let fail = false;
 			for (let i = 0; i < 5; i++) {
 				temp_kick = temp_kicks[i];
 				if (field.canFill(temp_kick)) {
 					// console.log(i, kick, temp_kick);
-					if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-					return -1; // only first working kick
+					if (temp_kick.x == op.x && temp_kick.y == op.y && !fail) return i;
+					fail = true; // only first working kick
 				}
 			}
-			return -1; // only first working kick
+			// return -1; // only first working kick
 		}
 	}
 
