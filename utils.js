@@ -3,6 +3,31 @@ const { decoder, encoder, Mino, Field } = require("tetris-fumen");
 const GAMES = {JSTRIS: {}, TETRIO: {}, GUIDELINE: {}};
 const GAME = GAMES.TETRIO;
 
+function there_exists_tetris_slot(fumen) {
+	let field = decoder.decode(fumen)[0].field;
+	for (let col = 0; col < 10; col++) {
+		for (let row = 0; row < 15; row++) {
+			let test_op = new Mino('I', 'right', col, row);
+			if (field.canLock(test_op) && is_placeable(test_op, field)) {
+				line_cleared = true;
+				for (let clear_rows = row - 2; clear_rows < row + 2; clear_rows++) {
+					for (let clear_cols = 0; clear_cols < 10; clear_cols++) {
+						if (clear_cols != col) {
+							if (field.at(clear_cols, clear_rows) == '_') line_cleared = false;
+						}
+					}	
+				}
+				if (line_cleared) {
+					let temp = field.copy();
+					temp.put(test_op);
+					return {fumen: encoder.encode([{field: temp}])};
+				}
+			}
+		}
+	}
+	return undefined;
+}
+
 function there_exists_tspin_slot(fumen) {
 	let field = decoder.decode(fumen)[0].field;
 	for (let row = 0; row < 15; row++) {
@@ -737,4 +762,4 @@ function op_string(operation) {
 	return operation.rotation + operation.x + operation.y;
 }
 
-module.exports = {is_placeable, t_spin_checker, test_tspin, there_exists_tspin_slot};
+module.exports = {is_placeable, t_spin_checker, test_tspin, there_exists_tspin_slot, there_exists_tetris_slot};

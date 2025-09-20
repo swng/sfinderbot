@@ -1,5 +1,5 @@
 const { decoder, encoder, Mino, Field } = require("tetris-fumen");
-const {is_placeable, t_spin_checker, test_tspin, there_exists_tspin_slot} = require('./utils.js'); // 
+const {is_placeable, t_spin_checker, test_tspin, there_exists_tspin_slot, there_exists_tetris_slot} = require('./utils.js'); // 
 const {glue} = require('./gluer.js');
 const {unglue} = require('./unglueFumens.js');
 const { make_sys_call } = require("./make_sys_call");
@@ -258,6 +258,16 @@ async function main() {
         console.log(`Execution Time: ${temp - start}ms`);
     } else if (mode == "immobile") {
         // will write this later
+    } else if (mode == "tetris") {
+        let tetris_results = [];
+        for (let result of results) {
+            let tetris_result = there_exists_tetris_slot(result);
+            if (tetris_result != undefined) tetris_results.push(tetris_result.fumen);
+        }
+        results = tetris_results;
+        console.log(results.length + ` setups after tetris check finder`);
+        temp = performance.now();
+        console.log(`Execution Time: ${temp - start}ms`);
     }
 
 

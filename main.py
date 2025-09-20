@@ -1214,6 +1214,13 @@ async def find_100ps(ctx, fumen=None, setup_pieces="OISZLJ", hold_piece="T", mod
       return
     if ("T" in setup_pieces):
       await ctx.reply("Warning: You included T in `setup_pieces` but are looking for a tspin. You probably mean a setup without using T.") # warn but don't exit just in case they somehow actually intentionally meant it
+  
+  if (mode == "tetris"):
+    if (hold_piece != "I"):
+      await ctx.reply("You are looking for a tetris but didn't set I as your hold piece.")
+      return
+    if ("I" in setup_pieces):
+      await ctx.reply("Warning: You included I in `setup_pieces` but are looking for a tetris. You probably mean a setup without using I.") # warn but don't exit just in case they somehow actually intentionally meant it
 
 
   kicks = get_kicks(ctx) # jstris180 or tetrio180 or srs or nullpomino180 or nokicks
