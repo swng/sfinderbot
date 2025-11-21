@@ -2321,6 +2321,49 @@ def convert_csv(input_file, output_file):
   with open(output_file, 'w') as file:
     file.write(content)
 
+@bot.command(aliases=["allspin_btb_cover"])
+async def allspin_b2b_cover(ctx, fumens=None, queue=None):
+  if (fumens == None or queue == None):
+    await ctx.reply("Please specify a fumen or a queue")
+    return
+  
+  errorfile = f"__userdata/{ctx.author.id}/error.txt"
+  
+  gluedfumens = fumensplit([fumens])
+  fumens = []
+  for i in gluedfumens:
+    fumens.append(glue(unglue(i)))
+
+  fumens = " ".join(fumens)
+
+  queue = queue.replace("*!", "*p7")
+
+  with open(f"__userdata/{ctx.author.id}/queuefeed.txt", "w") as queuefeed:
+    queuefeed.write("\n".join(holdsfinderqueues(queue)))
+
+  
+
+  covercommand = await system(
+    ctx,
+    f"java -jar sfinder.jar cover -t \"{fumens}\" -pp __userdata/{ctx.author.id}/queuefeed.txt -K kicks/{get_kicks(ctx)}.properties -d {get_180(ctx)} --hold avoid --output output/cover.csv > __userdata/{ctx.author.id}/cover.txt 2> {errorfile}"
+  )
+
+  if (covercommand != 0):
+    await ctx.reply(
+        f"Something went wrong with the cover command. Please check for any typos you might have had.\nThe error code is {covercommand}. 137 is out of memory and tends to be the most common.",
+      file=discord.File(errorfile))
+    return
+  
+  await system(
+      ctx,
+      f"node allspin_b2b_cover.js queue={queue} fileName=output/cover.csv fileType=cover > __userdata/{ctx.author.id}/ezsfinder.txt"
+    )
+  
+  score = open(f"__userdata/{ctx.author.id}/ezsfinder.txt").read().splitlines()
+  
+  await ctx.send(score[0], file=discord.File("output/allspin_b2b_cover.csv"))
+
+
 @bot.command()
 async def score(ctx,
                 fumen=None,
