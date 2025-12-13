@@ -813,60 +813,62 @@ function t_spin_checker(op, field) { // returns -1 if not t spin; otherwise, ret
     let ccw_kicks = get_ccw_kicks(ccw, op.rotation);
 
     for (let kick of cw_kicks) {
-        if (field.canFill(kick)) { // try and reverse it
-            let temp = vanilla_spin_ccw(kick.copy());
-            let temp_kicks = get_ccw_kicks(temp, kick.rotation);
-            for (let i = 1; i < 5; i++) {
-                temp_kick = temp_kicks[i];
-                if (field.canFill(temp_kick)) {
-                    // console.log(i, kick, temp_kick);
-                    if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                    return -1; // only first working kick
+		if (field.canFill(kick)) { // try and reverse it
+			let temp = vanilla_spin_ccw(kick.copy());
+			let temp_kicks = get_ccw_kicks(temp, kick.rotation);
+			let fail = false;
+			for (let i = 0; i < 5; i++) {
+				temp_kick = temp_kicks[i];
+				if (field.canFill(temp_kick)) {
+					// console.log(i, kick, temp_kick);
+					if (temp_kick.x == op.x && temp_kick.y == op.y && !fail) return i;
+					fail = true; // only first working kick
 
-                }
-            }
-            return -1; // only first working kick
-        }
-    }
-    for (let kick of ccw_kicks) {
-        if (field.canFill(kick)) { // try and reverse it
-            let temp = vanilla_spin_cw(kick.copy());
-            let temp_kicks = get_cw_kicks(temp, kick.rotation);
-            for (let i = 1; i < 5; i++) {
-                temp_kick = temp_kicks[i];
-                if (field.canFill(temp_kick)) {
-                    // console.log(i, kick, temp_kick);
-                    if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                    return -1; // only first working kick
-                }
-            }
-            return -1; // only first working kick
-        }
-    }
+				}
+			}
+			// return -1; // only first working kick
+		}
+	}
+	for (let kick of ccw_kicks) {
+		if (field.canFill(kick)) { // try and reverse it
+			let temp = vanilla_spin_cw(kick.copy());
+			let temp_kicks = get_cw_kicks(temp, kick.rotation);
+			let fail = false;
+			for (let i = 0; i < 5; i++) {
+				temp_kick = temp_kicks[i];
+				if (field.canFill(temp_kick)) {
+					// console.log(i, kick, temp_kick);
+					if (temp_kick.x == op.x && temp_kick.y == op.y && !fail) return i;
+					fail = true; // only first working kick
+				}
+			}
+			// return -1; // only first working kick
+		}
+	}
 
-    // XXX probably wrong on e.g. v115@zgB8HeA8IeA8AeI8BeH8CeF8JetJJ and the mirror
+	// XXX probably wrong on e.g. v115@zgB8HeA8IeA8AeI8BeH8CeF8JetJJ and the mirror
 
-    if (GAME === GAMES.TETRIO) {
-        // not possible to get 180 t-spins on Jstris or guideline
-        let r180 = vanilla_spin_180(op.copy());
-        let r180_kicks = get_180_kicks(r180, op.rotation);
+	if (GAME === GAMES.TETRIO) {
+		// not possible to get 180 t-spins on Jstris or guideline
+		let r180 = vanilla_spin_180(op.copy());
+		let r180_kicks = get_180_kicks(r180, op.rotation);
 
-        for (let kick of r180_kicks) {
-            if (field.canFill(kick)) { // try and reverse it
-                let temp = vanilla_spin_180(kick.copy());
-                let temp_kicks = get_180_kicks(temp, kick.rotation);
-                for (let i = 1; i < temp_kicks.length; i++) {
-                    temp_kick = temp_kicks[i];
-                    if (field.canFill(temp_kick)) {
-                        // console.log(i, kick, temp_kick);
-                        if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
-                        return -1; // only first working kick
-                    }
-                }
-                return -1; // only first working kick
-            }
-        }
-    }
+		for (let kick of r180_kicks) {
+			if (field.canFill(kick)) { // try and reverse it
+				let temp = vanilla_spin_180(kick.copy());
+				let temp_kicks = get_180_kicks(temp, kick.rotation);
+				for (let i = 1; i < temp_kicks.length; i++) {
+					temp_kick = temp_kicks[i];
+					if (field.canFill(temp_kick)) {
+						// console.log(i, kick, temp_kick);
+						if (temp_kick.x == op.x && temp_kick.y == op.y) return i;
+						return -1; // only first working kick
+					}
+				}
+				return -1; // only first working kick
+			}
+		}
+	}
 
     return -1;
 }
