@@ -495,7 +495,7 @@ async def help(ctx, command=None):
       example = "Example: `>cover_score v115@VgRpFewhAeRpFewhAeA8h0R4CewhAeA8g0R4DewhAe?A8g0B8wwBtG8xwBtF8wwglG8ilA8AeB8JeAgH *p7 true 800 0`"
     elif command == "find_100ps":
       description = "Searches for 100% paths, using the method of holding 1 piece and placing the rest 100% nohold. Supports final tspin mode, or none mode. Has filters for holes/skims in the setup, and minis/line clear minimum for the final clear."
-      format = "Command format: `>path {fumen} {setup_pieces} {hold_piece} {mode} {min_lines_cleared} {minis_allowed} {skims_allowed} {holes_allowed} {do_sfinder_check}`"
+      format = "Command format: `>find_100ps {fumen} {setup_pieces} {hold_piece} {mode} {min_lines_cleared} {minis_allowed} {skims_allowed} {holes_allowed} {do_sfinder_check}`"
       example = "Example: `>find_100ps v115@+gA8HeB8GeE8CeG8CeC8JeAgH OISZLJ T tspin 2 no no yes no`"
     else:
       await ctx.send(f"I don't think {command} is a command :3")
@@ -2361,7 +2361,7 @@ async def allspin_b2b_cover(ctx, fumens=None, queue=None):
   
   score = open(f"__userdata/{ctx.author.id}/ezsfinder.txt").read().splitlines()
   
-  await ctx.send(score[0], file=discord.File("output/allspin_b2b_cover.csv"))
+  await ctx.send("\n".join(score), file=discord.File("output/allspin_b2b_cover.csv"))
 
 
 @bot.command()
