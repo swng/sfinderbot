@@ -36,6 +36,8 @@ from discord.ext import tasks
 from itertools import permutations
 from dotenv import load_dotenv
 import traceback
+from mirror_direct_ilp import find_minimals
+
 
 load_dotenv()
 
@@ -1362,6 +1364,44 @@ async def chance(ctx, fumen=None, queue=None, clear=4):
   await ctx.reply(
     f"The chance of solving the setup is {solverate}.",
     file=discord.File(f"__userdata/{ctx.author.id}/failqueues.txt"))
+
+@bot.command()
+async def ilp_minimals(ctx, fumen=None, queue=None, clear=4):
+  if (fumen == None):
+    await ctx.reply("Please provide a fumen")
+    return
+  elif (queue == None):
+    await ctx.reply("Please provide a queue")
+    return
+
+  errorfile = f"__userdata/{ctx.author.id}/error.txt"
+  pathcsv = f"__userdata/{ctx.author.id}/path.csv"
+  outputfile = f"__userdata/{ctx.author.id}/ezsfinder.txt"
+  outputfile2 = f"__userdata/{ctx.author.id}/ezsfinder2.txt"
+
+  if (True):
+    pathtest = await system(
+      ctx,
+      f"java -jar sfinder.jar path -f csv -k pattern --tetfu {fumen} --patterns {queue} --clear {clear} -K kicks/{get_kicks(ctx)}.properties -d {get_180(ctx)} -o {pathcsv} > {outputfile} 2> {errorfile}"
+    )
+    
+    if (pathtest != 0):
+      await ctx.reply(
+      f"Something went wrong with the path command. Please check for any typos you might have had.\nThe error code is {pathtest}. 137 is out of memory and tends to be the most common.",
+      file=discord.File(errorfile))
+      return
+    
+    find_minimals(pathcsv, outputfile2, 180)
+
+    # await system(
+    #   ctx,
+    #   f"npx sfinder-minimal {covercsv} > {outputfile}"
+    # )
+    # await system(
+    #   ctx,
+    #   f"python3 true_minimal.py > {outputfile}")
+    minimallink = open(outputfile2).read() # .splitlines()[1]
+    await ctx.reply(f"{minimallink}")
 
 
 @bot.command(aliases=["mins", "min"])
