@@ -183,7 +183,7 @@ def prefix(bot, message):
 
 intents = discord.Intents.default()
 intents.message_content = True
-intents.presences = True
+# intents.presences = True
 bot = commands.Bot(command_prefix=prefix, intents=intents, help_command=None)
 
 def get_kicks(ctx):
@@ -1393,15 +1393,22 @@ async def ilp_minimals(ctx, fumen=None, queue=None, clear=4):
     
     find_minimals(pathcsv, outputfile2, 180)
 
-    # await system(
-    #   ctx,
-    #   f"npx sfinder-minimal {covercsv} > {outputfile}"
-    # )
-    # await system(
-    #   ctx,
-    #   f"python3 true_minimal.py > {outputfile}")
-    minimallink = open(outputfile2).read() # .splitlines()[1]
-    await ctx.reply(f"{minimallink}")
+    minimals_separate = open(outputfile2).read().splitlines()
+    minimals_joined = join(minimals_separate)[0]
+    message = ''
+
+    try:
+      message += f"The normal minimals are {make_tiny('https://harddrop.com/fumen/#?' + minimals_joined)}"
+
+    except:
+      with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "w") as file:
+        file.write("https://harddrop.com/fumen/#?" + minimals_joined)
+
+      with open(f"__userdata/{ctx.author.id}/tiny_error.txt", "rb") as file:
+        await ctx.send("All minimals (tinyurl failed):",
+                      file=discord.File(file, "result.txt"))
+
+    await ctx.reply(f"{message}")
 
 
 @bot.command(aliases=["mins", "min"])

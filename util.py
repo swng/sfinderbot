@@ -70,3 +70,17 @@ def preprocess(
 
     return valid_queues, fumens, valid_holdless_seqs, new_holdless_to_fumens, new_queue_to_holdless
 
+
+# only removes queues that are not covered
+# problem minimisation is done by the solver itself
+def prune_uncovered(
+    queues: list[str],
+    fumens: list[str],
+    queue_to_fumens: dict[str, list[str]]
+):
+    queue_to_fumens_pruned = {
+        queue: fumens for queue, fumens in queue_to_fumens.items() if fumens != []
+    }
+    queues_pruned = [queue for queue in queues if queue in queue_to_fumens_pruned.keys()]
+
+    return queues_pruned, fumens, queue_to_fumens_pruned

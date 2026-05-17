@@ -1,7 +1,7 @@
 import argparse
-from util import parse_path_file
+from util import parse_path_file, prune_uncovered
 from collections import defaultdict
-from solve_direct_ilp import solve_set_cover
+from solve_direct_cpsat import solve_set_cover_cp_sat
 
 # this file takes the same input as the normal sfinder-strict-minimals
 
@@ -11,8 +11,10 @@ def find_minimals(csv_path: str, output_path: str | None = None, timeLimit: int 
 
     queues = list(queue_to_fumens.keys())
     fumens = list(fumen_to_queues.keys())
-    solution = solve_set_cover(queues, fumens, queue_to_fumens, timeLimit=timeLimit)
-    
+
+    queues, fumens, queue_to_fumens = prune_uncovered(queues, fumens, queue_to_fumens)
+    solution = solve_set_cover_cp_sat(queues, fumens, queue_to_fumens, timeLimit=timeLimit)
+
     if not solution:
         return
     
